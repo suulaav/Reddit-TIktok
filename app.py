@@ -1,11 +1,22 @@
-from service.video.image_generator import generate_image
-from service.reddit.reddit_service_impl import get_reddit_post
-from service.tts.tts_generator import generate_mp3
-from textwrap3 import wrap
+import os
 
-post = get_reddit_post("AmItheAsshole")
+from flask import Flask, send_file
+from service.service_impl import start
 
-text = post['title'] + " " + post['description']
-print(text)
-generate_image(text)
-generate_mp3(text)
+app = Flask(__name__)
+
+
+@app.route("/make-video/<string:subreddit>")
+def make_video(subreddit):
+    return start(subreddit)
+
+
+@app.route("/get-video")
+def get_video():
+    dir_path = "media/final/"
+    res = os.listdir(dir_path)
+    return send_file(dir_path + res[0], mimetype='video/mp4')
+
+
+if __name__ == '__main__':
+    app.run(debug=True)

@@ -31,4 +31,6 @@ def generate_image(text):
                     (0, 0, 0),
                     font_thickness,
                     lineType=cv2.LINE_AA)
-    cv2.imwrite(f"media/temp/text_{datetime.now().strftime('%Y%m%d%H%M%S%z')}.jpg", img)
+    image_path = f"media/temp/text_{datetime.now().strftime('%Y%m%d%H%M%S%z')}.jpg"
+    cv2.imwrite(image_path, img)
+    return image_path
